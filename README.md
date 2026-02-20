@@ -1,6 +1,6 @@
 <h1>ExpNo 4 : Implement A* search algorithm for a Graph</h1> 
-<h3>Name:       </h3>
-<h3>Register Number:           </h3>
+<h3>Name: SANTHOSH V</h3>
+<h3>Register Number: 212224230251 </h3>
 <H3>Aim:</H3>
 <p>To ImplementA * Search algorithm for a Graph using Python 3.</p>
 <H3>Algorithm:</H3>
@@ -49,7 +49,84 @@
     end (while loop)
 
 ``````
-
+## Program:
+```
+from collections import defaultdict
+'''Constructing a Weighted Graph
+'''
+def astar(start,goal):
+    openset=set(start)
+    closed=set()
+    g={}
+    parents={}
+    g[start]=0
+    parents[start]=start
+    while len(openset)>0:
+        n=None
+        for v in openset:
+            if n==None or g[v]+heuristic(v)<g[n]+heuristic(n):
+                n=v
+        if n==goal or Graph_nodes[n]==None:
+            pass
+        else:
+            print(getneighbours(n))
+            for (m,weight) in getneighbours(n):
+                if m not in openset and m not in closed:
+                    openset.add(m)
+                    parents[m]=n
+                    g[m]=g[n]+weight
+                else:
+                    if g[m]>g[n]+weight:
+                        g[m]=g[n]+weight
+                        parents[m]=n
+                        if m in closed:
+                            closed.remove(m)
+                            openset.add(m)
+        if n==None:
+            return None
+        #if Goal is reached move from Goal node to start node--->Path
+        if n==goal:
+            path=[]
+            while parents[n]!=n:
+                path.append(n)
+                n=parents[n]
+            path.append(start)
+            path.reverse()
+            print(path)
+            return path
+    
+        openset.remove(n)
+        closed.add(n)
+    return None
+def getneighbours(n):
+    if n in Graph_nodes:
+        return Graph_nodes[n]
+    else:
+        return None
+def heuristic(n):
+    return H_dist[n]
+graph=defaultdict(list)
+H_dist={} 
+nodes,edges=map(int,input().split())
+for i in range(edges):
+    u,v,cost=map(str,input().split())
+    t=(u,float(cost))
+    graph[v].append(t)
+    t1=(v,float(cost))
+    graph[u].append(t1)
+print(graph)
+Graph_nodes=graph
+for i in range(nodes):
+    node,h=map(str,input().split())
+    H_dist[node]=float(h)
+print(H_dist)
+start=input()
+goal=input()
+print(getneighbours(start))
+#print(heuristic(start))
+#print(heuristic(goal))
+astar(start,goal)
+```
 <hr>
 <h2>Sample Graph I</h2>
 <hr>
@@ -117,3 +194,7 @@ G 0 <br>
 <h2>Sample Output</h2>
 <hr>
 Path found: ['A', 'E', 'D', 'G']
+
+## Result:
+Thus a graph was constructed and implemantation of A star Search for the same graph was done successfully.
+
